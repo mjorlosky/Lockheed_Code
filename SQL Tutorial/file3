@@ -1,0 +1,9 @@
+/*SELECT CURRENT_DATE*/
+/*SELECT EXTRACT(MONTH FROM payment_date) AS month
+FROM payment
+*/
+/*SELECT AGE(payment_date)
+FROM payment*/
+/*SELECT TO_CHAR (payment_date, 'MM/dd/YYYY') FROM payment*/
+/*SELECT COUNT(*) FROM payment
+WHERE EXTRACT(dow FROM payment_date) = 1*/

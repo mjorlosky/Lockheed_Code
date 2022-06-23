@@ -1,0 +1,66 @@
+#!/usr/bin/python3
+# https://cryptography.io/
+
+# HASHING
+from cryptography.hazmat.primitives.hashes import *
+
+message = b'hash me plz'
+
+# Create a Hash object and pass it the algorith.
+# Use the update method to add data to hash.
+# Use the finalize method to get the final message digest / hash.
+digest = Hash(MD5())
+digest.update(message)
+print(digest.finalize().hex())
+print()
+
+# BLOCK CIPHERS
+import os
+from cryptography.hazmat.primitives.ciphers import *
+from cryptography.hazmat.primitives.ciphers.algorithms import *
+from cryptography.hazmat.primitives.ciphers.modes import *
+
+# AES block size is 32 bytes because AES is a 128-bit block size cipher.
+message = b'encrypt me plz'
+message = message + bytes(32 - len(message))
+
+# Create the Cipher object and pass it the algorithm and the mode
+# Algorithm is bound to the key.
+# Mode is how the cipher is used. Typically bound with Initialization Vector (IV) or Nonce.
+key = os.urandom(32) # AES = 128-bits... 32-bytes
+iv = os.urandom(16)
+cipher = Cipher(AES(key), CBC(iv))
+encryptor = cipher.encryptor()
+ciphertext = encryptor.update(message) + encryptor.finalize()
+
+decryptor = cipher.decryptor()
+plaintext = decryptor.update(ciphertext) + decryptor.finalize()
+
+print(message)
+print()
+print(ciphertext.hex())
+print()
+print(plaintext)
+print()
+
+# STREAM CIPHERS
+message = b'encrypt me plz'
+
+key = os.urandom(32)
+nonce = os.urandom(16)
+cipher = Cipher(ChaCha20(key, nonce), mode=None)
+encryptor = cipher.encryptor()
+ciphertext = encryptor.update(message) + encryptor.finalize()
+decryptor = cipher.decryptor()
+plaintext = decryptor.update(ciphertext) + decryptor.finalize()
+
+print(ciphertext.hex())
+print()
+print(message.hex())
+print()
+print(plaintext)
+
+# Weakening Ciphers
+key = os.urandom(4) + bytes(28) # Zero padding on the right
+key = bytes(28) + os.urandom(4) # Zero padding on the left
+nonce = bytes(16) # Zero nonce

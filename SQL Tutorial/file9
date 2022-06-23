@@ -1,0 +1,11 @@
+/*UPDATE account
+SET last_login = CURRENT_TIMESTAMP
+RETURNING email, created_on, last_login*/
+/*SELECT * FROM job*/
+/* INSERT INTO job(job_name)
+VALUES
+('Cowboy')*/
+/* DELETE FROM job
+WHERE job_name = 'Cowboy'
+RETURNING job_id, job_name */
+SELECT * FROM job
